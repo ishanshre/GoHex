@@ -21,7 +21,7 @@ func (apia Adapter) GetAddition(a, b int) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	if err := apia.db.AddToHistory(answer, "addition"); err != nil {
+	if err := apia.db.AddToHistroy(int32(answer), "addition"); err != nil {
 		return 0, err
 	}
 	return answer, nil
@@ -32,7 +32,7 @@ func (apia Adapter) GetSubstraction(a, b int) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	if err := apia.db.AddToHistory(answer, "substraction"); err != nil {
+	if err := apia.db.AddToHistroy(int32(answer), "substraction"); err != nil {
 		return 0, err
 	}
 	return answer, nil
@@ -43,7 +43,7 @@ func (apia Adapter) GetMultiplication(a, b int) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	if err := apia.db.AddToHistory(answer, "multiplication"); err != nil {
+	if err := apia.db.AddToHistroy(int32(answer), "multiplication"); err != nil {
 		return 0, err
 	}
 	return answer, nil
@@ -54,7 +54,7 @@ func (apia Adapter) GetDivision(a, b int) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	if err := apia.db.AddToHistory(answer, "division"); err != nil {
+	if err := apia.db.AddToHistroy(int32(answer), "division"); err != nil {
 		return 0, err
 	}
 	return answer, nil

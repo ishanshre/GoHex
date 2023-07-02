@@ -1,24 +1,26 @@
 package main
 
-//import (
-	"github.com/ishanshre/GoHex/internal/adapters/core/arithmetic"
-	"github.com/ishanshre/GoHex/internal/ports"
+import (
 	"log"
+	"os"
+
+	"github.com/ishanshre/GoHex/internal/adapters/app/api"
+	"github.com/ishanshre/GoHex/internal/adapters/core/arithmetic"
+	rpc "github.com/ishanshre/GoHex/internal/adapters/framework/left/grpc"
+	"github.com/ishanshre/GoHex/internal/adapters/framework/right/db"
 )
 
 func main() {
 
-	//ports
-
-	// var core ports.ArithmeticPort
-	//	core = arithmetic.NewAdapter()
-
-	/*
-		arithAdapter := arithmetic.NewAdapter()
-		result, err := arithAdapter.Addition(1, 3)
-		if err != nil {
-			log.Println(err)
-		}
-		log.Println(result)
-	*/
+	dbaseDriver := os.Getenv("dbaseDriver")
+	dsn := os.Getenv("dsn")
+	dbAdapter, err := db.NewAdapter(dbaseDriver, dsn)
+	if err != nil {
+		log.Fatalf("error in connecting to database: %v", err)
+	}
+	defer dbAdapter.CloseDbConnection()
+	core := arithmetic.NewAdapter()
+	applicationAPI := api.NewAdapter(dbAdapter, core)
+	grpcAdapter := rpc.NewAdapater(applicationAPI)
+	grpcAdapter.Run()
 }
